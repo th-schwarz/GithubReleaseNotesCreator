@@ -16,7 +16,7 @@ public class GithubServiceTest extends AbstractTest {
 
   @Test
   void test() throws IOException {
-    GithubService service = new GithubService(GITHUB_TOKEN, OWNER, REPO);
+    GithubService service = new GithubService(GITHUB_TOKEN, REPO);
 
     String milestoneTitle = "0.9.0";
     GHMilestone milestone = service.findMilestone(milestoneTitle);

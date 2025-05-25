@@ -26,14 +26,12 @@ class YamlUtilTest {
         this.getClass().getResourceAsStream("/ghrnc_without-sections.yml"));
     assertNotNull(result);
     Ghrnc config = result.ghrnc();
-    assertEquals("owner", config.owner());
-    assertEquals("project", config.repo());
+    assertEquals("owner/project", config.repo());
     check(config, false);
   }
 
   private static void check(Ghrnc config, boolean checkImprovements) {
-    assertEquals("owner", config.owner());
-    assertEquals("project", config.repo());
+    assertEquals("owner/project", config.repo());
     assertEquals("ghp_abcdefghijklmnopqrstxyz0123456789bla", config.githubToken());
 
     assertEquals("Enhancements", config.sections().get(0).getTitle());

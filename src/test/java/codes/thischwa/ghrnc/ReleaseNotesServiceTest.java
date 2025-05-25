@@ -13,7 +13,7 @@ public class ReleaseNotesServiceTest extends AbstractTest {
 
  @Test
  void test() throws Exception {
-    GithubService service = new GithubService(GITHUB_TOKEN, OWNER, REPO);
+    GithubService service = new GithubService(GITHUB_TOKEN, REPO);
     ReleaseNotesService changelogService = new ReleaseNotesService(service, new YamlUtil().readInputStream(this.getClass().getResourceAsStream(
         "/ghrnc.yml")));
     String changelog = changelogService.generateChangelog("0.9.0");

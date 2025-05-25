@@ -24,14 +24,12 @@ public class GithubService {
   private final GitHub github;
   private final GHRepository repo;
 
-  public GithubService(String githubToken, String owner, String repo) throws IOException {
+  public GithubService(String githubToken, String repo) throws IOException {
     assert githubToken != null;
-    assert owner != null;
     assert repo != null;
     github = new GitHubBuilder().withOAuthToken(githubToken).build();
-    String repoPath = String.format("%s/%s", owner, repo);
-    this.repo = github.getRepository(repoPath);
-    LOG.debug("GitHub-Service initialized for {}", repoPath);
+    this.repo = github.getRepository(repo);
+    LOG.debug("GitHub-Service initialized for {}", repo);
   }
 
   public GHMilestone findMilestone(String title) throws NoSuchElementException {

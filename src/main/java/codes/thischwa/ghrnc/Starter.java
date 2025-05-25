@@ -48,14 +48,14 @@ public class Starter {
       Conf conf = new YamlUtil().readInputStream(new FileInputStream(configFilePath));
       Ghrnc ghrnc = conf.ghrnc();
       ReleaseNotesService releaseNotesService = new ReleaseNotesService(
-          new GithubService(ghrnc.githubToken(), ghrnc.owner(), ghrnc.repo()), conf);
+          new GithubService(ghrnc.githubToken(), ghrnc.repo()), conf);
 
       // Generate the release notes
       String releaseNotes = null;
       try {
         releaseNotes = releaseNotesService.generateChangelog(milestone);
       } catch (NoSuchElementException e) {
-        LOG.error("No such milestone ({}) found on {}/{}", milestone, ghrnc.owner(), ghrnc.repo());
+        LOG.error("No such milestone ({}) found on {}", milestone, ghrnc.repo());
         System.exit(2);
       }
 

@@ -1,4 +1,3 @@
 ghrnc:
-  owner: owner
-  repo: project
+  repo: owner/project
   githubToken: ghp_abcdefghijklmnopqrstxyz0123456789bla
