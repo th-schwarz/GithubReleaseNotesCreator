@@ -1,0 +1,63 @@
+//:toc:
+//:toclevels: 3
+//:toc-title:
+:source-highlighter: highlightjs
+:highlightjs-languages: yaml,console
+
+= GitHub Release Notes Creator
+
+\... is a Java-based tool for automatically creating release notes for software projects hosted on GitHub. By using closed issues associated with specific milestones, accurate release documentation is generated. It connects to the GitHub API, retrieves relevant issue data and formats the information into structured release notes.  +
+The format of the output is Markdown.
+
+image:https://github.com/th-schwarz/GithubReleaseNotesCreator/actions/workflows/build-and-analyse.yml/badge.svg["GitHub CI Build Status",link="https://github.com/th-schwarz/GithubReleaseNotesCreator/actions/workflows/build-and-analyse.yml"]
+
+For accessing the GitHub API, the https://github.com/hub4j/github-api[Java API for GitHub] is used.
+
+If you find a bug or certain features are missing, don’t hesitate to file an issue on https://github.com/th-schwarz/GithubReleaseNotesCreator/issues[Github].
+
+The state of the project is BETA.
+
+== Configuration
+
+[source,yaml]
+----
+ghrnc:
+  owner: owner
+  repo: project
+  githubToken: ghp_abcdefghijklmnopqrstxyz0123456789bla
+  sections:
+    - title: "Enhancements"
+      labels: ["enhancement"]
+    - title: "Bugs"
+      labels: ["bug"]
+    - title: "Improvements"
+      labels: ["improvement"]
+----
+
+If `sections` isn't set, the following default is used:
+
+[source,yaml]
+----
+  sections:
+    - title: "Enhancements"
+      labels: ["enhancement"]
+    - title: "Bugs"
+      labels: ["bug"]
+----
+
+== Running Standalone
+
+[source,console]
+----
+java -jar ghrnc.jar <milestone> <path-to-ghrnc-config.yaml> [<path-to-output-changelog.md>]
+----
+
+Required parameters:
+
+- `milestone`: The milestone for which the release notes should be generated.
+
+- `path-to-ghrnc-config.yaml`: The configuration file, see above.
+
+Optional parameter:
+
+- `path-to-output-changelog.md`: The generated release notes file. If it isn't, 'release-notes.md' is used.
