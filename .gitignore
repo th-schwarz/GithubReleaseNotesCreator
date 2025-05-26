@@ -33,5 +33,5 @@ build/
 .vscode/
 
 # local
-ghrnc.yml
-info.txt
+/ghrnc.yml
+/info.txt

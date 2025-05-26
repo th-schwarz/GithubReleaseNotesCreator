@@ -1,0 +1,10 @@
+ghrnc:
+  repo: owner/project
+  githubToken: ghp_abcdefghijklmnopqrstxyz0123456789bla
+  sections:
+    - title: "Enhancements"
+      labels: ["enhancement"]
+    - title: "Bugs"
+      labels: ["bug"]
+    - title: "Improvements"
+      labels: ["improvement"]
