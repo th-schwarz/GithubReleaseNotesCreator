@@ -1,0 +1,37 @@
+name: Build and Analyse
+
+on:
+  push:
+    branches:
+      - develop
+      - feature*
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  mvn-build:
+    runs-on: ubuntu-latest
+    env:
+      GHRNC_GITHUB_TOKEN: ${{secrets.GHRNC_GITHUB_TOKEN}}
+      GHRNC_OWNER: ${{secrets.GHRNC_OWNER}}
+      GHRNC_REPO: ${{secrets.GHRNC_REPO}}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4.5.0
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+      - name: Cache maven repository
+        uses: actions/cache@v4.2.0
+        with:
+          path: ~/.m2/repository
+          key: maven
+          restore-keys: maven
+      - name: Build with Maven
+        run: mvn -DtestClasspath=src/test/ verify

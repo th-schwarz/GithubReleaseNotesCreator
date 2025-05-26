@@ -1,0 +1,6 @@
+ghrnc:
+  sections:
+    - title: "Enhancements"
+      labels: ["enhancement"]
+    - title: "Bugs"
+      labels: ["bug"]
