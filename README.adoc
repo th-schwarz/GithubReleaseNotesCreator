@@ -35,6 +35,8 @@ ghrnc:
       labels: ["improvement"]
 ----
 
+The `githubToken` is optional but increases the rate limit of GitHub.
+
 If `sections` isn't set, the following default is used:
 
 [source,yaml]
