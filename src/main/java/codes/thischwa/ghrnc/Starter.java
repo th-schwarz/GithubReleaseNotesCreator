@@ -62,7 +62,7 @@ public class Starter {
       // Save the release notes to the provided file path
       try (FileWriter writer = new FileWriter(releaseNotesFilePath)) {
         writer.write(releaseNotes);
-        LOG.info("Release notes generated for {} and saved to: {}", milestone, releaseNotesFilePath);
+        LOG.info("Release notes of {} generated for {} and saved to: {}", ghrnc.repo(), milestone, releaseNotesFilePath);
       }
     } catch (IOException e) {
       System.err.println("An error occurred: " + e.getMessage());

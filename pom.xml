@@ -20,6 +20,7 @@
         <github-api.version>2.0-rc.3</github-api.version>
         <jackson.version>2.18.3</jackson.version>
         <logback.version>1.5.18</logback.version>
+        <jetbrains-annotations.version>24.0.0</jetbrains-annotations.version>
         <junit5.version>5.12.2</junit5.version>
     </properties>
 
@@ -49,6 +50,12 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${jetbrains-annotations.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

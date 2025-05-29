@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+import org.jetbrains.annotations.Nullable;
 import org.kohsuke.github.GHIssue;
 import org.kohsuke.github.GHIssueState;
 import org.kohsuke.github.GHLabel;
@@ -24,10 +25,10 @@ public class GithubService {
   private final GitHub github;
   private final GHRepository repo;
 
-  public GithubService(String githubToken, String repo) throws IOException {
-    assert githubToken != null;
+  public GithubService(@Nullable String githubToken, String repo) throws IOException {
     assert repo != null;
-    github = new GitHubBuilder().withOAuthToken(githubToken).build();
+    github = (githubToken == null || githubToken.isBlank()) ? new GitHubBuilder().build() :
+        new GitHubBuilder().withOAuthToken(githubToken).build();
     this.repo = github.getRepository(repo);
     LOG.debug("GitHub-Service initialized for {}", repo);
   }
@@ -46,7 +47,7 @@ public class GithubService {
     List<GHIssue> ghIssues = repo.getIssues(GHIssueState.CLOSED, milestone);
     List<GHIssue> foundIssues = ghIssues.stream().filter(issue -> issue.getPullRequest() == null)
         .collect(Collectors.toList());
-    LOG.debug("Found {} closed issues for milestone {}", foundIssues.size(), milestone.getTitle());
+    LOG.info("Found {} closed issues for milestone {}", foundIssues.size(), milestone.getTitle());
     return foundIssues;
   }
 
