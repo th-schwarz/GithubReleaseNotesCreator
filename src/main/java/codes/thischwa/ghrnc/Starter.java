@@ -48,7 +48,7 @@ public class Starter {
       Conf conf = new YamlUtil().readInputStream(new FileInputStream(configFilePath));
       Ghrnc ghrnc = conf.ghrnc();
       ReleaseNotesService releaseNotesService = new ReleaseNotesService(
-          new GithubService(ghrnc.githubToken(), ghrnc.repo()), conf);
+          new GithubService(ghrnc.baseUrl(), ghrnc.githubToken(), ghrnc.repo()), conf);
 
       // Generate the release notes
       String releaseNotes = null;

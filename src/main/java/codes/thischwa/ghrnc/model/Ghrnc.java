@@ -2,12 +2,12 @@ package codes.thischwa.ghrnc.model;
 
 import java.util.List;
 
-public record Ghrnc(String repo,
-    String githubToken, 
-    List<Section> sections
-) {
+import org.jetbrains.annotations.Nullable;
+
+public record Ghrnc(@Nullable String baseUrl, String repo, String githubToken,
+                    List<Section> sections) {
 
   public Ghrnc(Ghrnc ghrnc, List<Section> sections) {
-    this(ghrnc.repo(), ghrnc.githubToken(), sections);
+    this(ghrnc.baseUrl(), ghrnc.repo(), ghrnc.githubToken(), sections);
   }
 }

@@ -25,7 +25,7 @@ Give it a try!  image:https://img.shields.io/github/v/release/th-schwarz/GithubR
 ----
 ghrnc:
   repo: owner/project
-  githubToken: ghp_abcdefghijklmnopqrstxyz0123456789bla
+  github-token: ghp_abcdefghijklmnopqrstxyz0123456789bla
   sections:
     - title: "Enhancements"
       labels: ["enhancement"]
@@ -35,7 +35,7 @@ ghrnc:
       labels: ["improvement"]
 ----
 
-The `githubToken` is optional but increases the rate limit of GitHub.
+The `ghrnc.github-token` is optional but increases the rate limit of GitHub. If required, the endpoint of the GitHub API could be set with `ghrnc.base-url`.
 
 If `sections` isn't set, the following default is used:
 
