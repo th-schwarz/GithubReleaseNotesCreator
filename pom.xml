@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>codes.thischwa</groupId>
     <artifactId>ghrnc</artifactId>
-    <version>0.1.0-beta.2</version>
+    <version>0.1.0-beta.3-SNAPSHOT</version>
     <name>GitHub Release Notes Creator</name>
     <description>A tool for creating release notes based on the closed GitHub issues of a milestone.</description>
 
@@ -31,7 +31,7 @@
     <scm>
         <developerConnection>scm:git:git@github.com:th-schwarz/GithubReleaseNotesCreator</developerConnection>
         <connection>scm:git:git@github.com:th-schwarz/GithubReleaseNotesCreator</connection>
-        <tag>ghrnc-0.1.0-beta.2</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <dependencies>
