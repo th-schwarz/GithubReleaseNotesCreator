@@ -16,7 +16,16 @@ class YamlUtilTest {
     Conf result = yamlUtil.readInputStream(this.getClass().getResourceAsStream("/ghrnc.yml"));
     assertNotNull(result);
     Ghrnc config = result.ghrnc();
-    check(config, true);
+
+    assertEquals("owner/project", config.repo());
+    assertEquals("ghp_abcdefghijklmnopqrstxyz0123456789bla", config.githubToken());
+
+    assertEquals("Enhancements", config.sections().get(0).getTitle());
+    assertTrue(config.sections().get(0).getLabels().contains("enhancement"));
+    assertEquals("Bugs", config.sections().get(1).getTitle());
+    assertTrue(config.sections().get(1).getLabels().contains("bug"));
+      assertEquals("Improvements", config.sections().get(2).getTitle());
+      assertTrue(config.sections().get(2).getLabels().contains("improvement"));
   }
 
   @Test
@@ -27,20 +36,13 @@ class YamlUtilTest {
     assertNotNull(result);
     Ghrnc config = result.ghrnc();
     assertEquals("owner/project", config.repo());
-    check(config, false);
-  }
 
-  private static void check(Ghrnc config, boolean checkImprovements) {
     assertEquals("owner/project", config.repo());
     assertEquals("ghp_abcdefghijklmnopqrstxyz0123456789bla", config.githubToken());
 
-    assertEquals("Enhancements", config.sections().get(0).getTitle());
+    assertEquals(":star: New Features", config.sections().get(0).getTitle());
     assertTrue(config.sections().get(0).getLabels().contains("enhancement"));
-    assertEquals("Bugs", config.sections().get(1).getTitle());
+    assertEquals(":lady_beetle: Bug Fixes", config.sections().get(1).getTitle());
     assertTrue(config.sections().get(1).getLabels().contains("bug"));
-    if (checkImprovements) {
-      assertEquals("Improvements", config.sections().get(2).getTitle());
-      assertTrue(config.sections().get(2).getLabels().contains("improvement"));
-    }
   }
 }

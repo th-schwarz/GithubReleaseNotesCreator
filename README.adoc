@@ -41,11 +41,14 @@ If `sections` isn't set, the following default is used:
 
 [source,yaml]
 ----
+ghrnc:
   sections:
-    - title: "Enhancements"
+    - title: ":star: New Features"
       labels: ["enhancement"]
-    - title: "Bugs"
+    - title: ":lady_beetle: Bug Fixes"
       labels: ["bug"]
+    - title: ":notebook_with_decorative_cover: Documentation"
+      labels: ["documentation"]
 ----
 
 == Running Standalone
