@@ -33,5 +33,7 @@ build/
 .vscode/
 
 # local
-/ghrnc.yml
+/dyndrest.yml
 /info.txt
+/ghrnc.yml
+/bcg.yml
