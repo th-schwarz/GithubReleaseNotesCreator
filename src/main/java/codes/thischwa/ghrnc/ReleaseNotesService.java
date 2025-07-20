@@ -1,17 +1,21 @@
 package codes.thischwa.ghrnc;
 
 import codes.thischwa.ghrnc.model.Conf;
+import codes.thischwa.ghrnc.model.Section;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import org.kohsuke.github.GHIssue;
+import org.kohsuke.github.GHLabel;
 import org.kohsuke.github.GHMilestone;
 
 public class ReleaseNotesService {
+
+  private static final String NL = "\n";
 
   private final GithubService githubService;
   private final Conf config;
@@ -30,38 +34,42 @@ public class ReleaseNotesService {
     List<GHIssue> closedIssues = githubService.getClosedIssuesForMilestone(milestone);
 
     // Group issues by their labels
-    Map<String, List<GHIssue>> groupedIssues = groupByConfiguredLabels(closedIssues);
+    Map<String, List<GHIssue>> groupedIssues = groupBySection(closedIssues);
 
     // Generate markdown content
     return generateMarkdown(groupedIssues);
   }
 
-  private Map<String, List<GHIssue>> groupByConfiguredLabels(List<GHIssue> issues) {
-    Map<String, List<GHIssue>> groupedIssues = new HashMap<>();
-    config.ghrnc().sections().forEach(section -> {
-      section.getLabels().forEach(label -> {
-        List<GHIssue> issuesForLabel = issues.stream().filter(issue -> issue.getLabels().stream()
-            .anyMatch(ghLabel -> ghLabel.getName().equals(label))).collect(Collectors.toList());
-        groupedIssues.put(label, issuesForLabel);
-      });
-    });
+  Map<String, List<GHIssue>> groupBySection(List<GHIssue> issues) {
+    final Map<String, List<GHIssue>> groupedIssues = new HashMap<>();
+
+    for (GHIssue issue : issues) {
+      for (String label : issue.getLabels().stream().map(GHLabel::getName).toList()) {
+        for (Section section : config.ghrnc().sections()) {
+          if (section.getLabels().contains(label)) {
+            String sectionTitle = section.getTitle();
+            if (!groupedIssues.containsKey(sectionTitle)) {
+              groupedIssues.put(sectionTitle, new ArrayList<>());
+            }
+            groupedIssues.get(sectionTitle).add(issue);
+          }
+        }
+      }
+    }
     return groupedIssues;
   }
-
-  private String generateMarkdown(Map<String, List<GHIssue>> groupedIssues) {
+  String generateMarkdown(Map<String, List<GHIssue>> groupedIssues) {
     StringBuilder markdown = new StringBuilder();
     config.ghrnc().sections().forEach(section -> {
-      section.getLabels().forEach(label -> {
-        List<GHIssue> issues = groupedIssues.get(label);
+        List<GHIssue> issues = groupedIssues.get(section.getTitle());
         if (issues != null && !issues.isEmpty()) {
-          markdown.append("## ").append(section.getTitle()).append("\n\n");
+          markdown.append("## ").append(section.getTitle()).append(NL).append(NL);
           for (GHIssue issue : issues) {
             markdown.append("- ").append(issue.getTitle()).append(" [#").append(issue.getNumber())
-                .append("](").append(issue.getHtmlUrl()).append(")\n");
+                .append("](").append(issue.getHtmlUrl()).append(")").append(NL);
           }
-          markdown.append("\n");
+          markdown.append(NL);
         }
-      });
     });
     return markdown.toString().trim();
   }

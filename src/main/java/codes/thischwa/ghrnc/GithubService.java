@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
 import org.kohsuke.github.GHIssue;
@@ -50,10 +49,11 @@ public class GithubService {
 
   public List<GHIssue> getClosedIssuesForMilestone(GHMilestone milestone) throws IOException {
     List<GHIssue> ghIssues = repo.getIssues(GHIssueState.CLOSED, milestone);
-    List<GHIssue> foundIssues = ghIssues.stream().filter(issue -> issue.getPullRequest() == null)
-        .collect(Collectors.toList());
-    LOG.info("Found {} closed issues for milestone {}", foundIssues.size(), milestone.getTitle());
-    return foundIssues;
+    // TODO option to exclude pull requests?
+//    List<GHIssue> foundIssues = ghIssues.stream().filter(issue -> issue.getPullRequest() == null)
+//        .collect(Collectors.toList());
+    LOG.info("Found {} closed issues for milestone {}", ghIssues.size(), milestone.getTitle());
+    return ghIssues;
   }
 
   public Map<GHLabel, List<GHIssue>> groupByLabel(List<GHIssue> issues) {

@@ -42,4 +42,16 @@ public class GithubServiceTest extends AbstractTest {
     assertEquals(50, issue1.getNumber());
     assertEquals("properties: move zones out of dyndrest", issue1.getTitle());
   }
+
+  @Test
+  void testSpring() throws IOException {
+    GithubService service = new GithubService(null, GITHUB_TOKEN, "spring-projects/spring-framework");
+    String milestoneTitle = "6.2.5";
+    GHMilestone milestone = service.findMilestone(milestoneTitle);
+    assertNotNull(milestone);
+    assertEquals(milestoneTitle, milestone.getTitle());
+    assertEquals(16, milestone.getClosedIssues());
+    List<GHIssue> issues = service.getClosedIssuesForMilestone(milestone);
+    assertEquals(16, issues.size());
+  }
 }
