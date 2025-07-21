@@ -49,9 +49,6 @@ public class GithubService {
 
   public List<GHIssue> getClosedIssuesForMilestone(GHMilestone milestone) throws IOException {
     List<GHIssue> ghIssues = repo.getIssues(GHIssueState.CLOSED, milestone);
-    // TODO option to exclude pull requests?
-//    List<GHIssue> foundIssues = ghIssues.stream().filter(issue -> issue.getPullRequest() == null)
-//        .collect(Collectors.toList());
     LOG.info("Found {} closed issues for milestone {}", ghIssues.size(), milestone.getTitle());
     return ghIssues;
   }
