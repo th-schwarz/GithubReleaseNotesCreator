@@ -37,7 +37,7 @@ ghrnc:
 
 The `ghrnc.github-token` is optional but increases the rate limit of GitHub. If required, the endpoint of the GitHub API could be set with `ghrnc.base-url`.
 
-If `sections` isn't set, the following default is used:
+If `ghrnc.sections` isn't set, the following default is used:
 
 [source,yaml]
 ----
@@ -49,6 +49,20 @@ ghrnc:
       labels: ["bug"]
     - title: ":notebook_with_decorative_cover: Documentation"
       labels: ["documentation"]
+----
+
+Optionally, a list of all contributors can be created. The corresponding configuration may look like this:
+
+[source,yaml]
+----
+ghrnc:
+  contributors:
+    enabled: true
+    title: ":heart: Contributors"
+    message: "Thank you to all the contributors who worked on this release."
+    excludes:
+      - "core-developer-1"
+      - "core-developer-2"
 ----
 
 == Running Standalone
