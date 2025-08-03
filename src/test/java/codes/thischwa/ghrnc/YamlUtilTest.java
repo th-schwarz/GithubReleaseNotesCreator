@@ -3,6 +3,7 @@ package codes.thischwa.ghrnc;
 import codes.thischwa.ghrnc.model.Conf;
 import codes.thischwa.ghrnc.model.Ghrnc;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -36,8 +37,6 @@ class YamlUtilTest {
     assertNotNull(result);
     Ghrnc config = result.ghrnc();
     assertEquals("owner/project", config.repo());
-
-    assertEquals("owner/project", config.repo());
     assertEquals("ghp_abcdefghijklmnopqrstxyz0123456789bla", config.githubToken());
 
     assertEquals(":star: New Features", config.sections().get(0).getTitle());
@@ -45,4 +44,19 @@ class YamlUtilTest {
     assertEquals(":lady_beetle: Bug Fixes", config.sections().get(1).getTitle());
     assertTrue(config.sections().get(1).getLabels().contains("bug"));
   }
+
+  @Test
+  void testContributorsConfig() {
+    YamlUtil yamlUtil = new YamlUtil();
+    Conf result = yamlUtil.readInputStream(this.getClass().getResourceAsStream("/ghrnc.yml"));
+    assertNotNull(result);
+
+    Ghrnc config = result.ghrnc();
+    assertNotNull(config.contributors());
+    assertFalse(config.contributors().enabled());
+    assertEquals("Contributors", config.contributors().title());
+    assertEquals("Thank you to all the contributors who worked on this release.", config.contributors().message());
+    assertTrue(config.contributors().excludes().contains("core-developer"));
+  }
+
 }
