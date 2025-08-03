@@ -1,5 +1,6 @@
 package codes.thischwa.ghrnc;
 
+import codes.thischwa.ghrnc.model.Ghrnc;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,13 +11,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.kohsuke.github.GHIssue;
 
 public class ReleaseNotesServiceTest extends AbstractTest {
 
   @Test
-  void test() throws Exception {
+  void testOnline() throws Exception {
     GithubService service = new GithubService(GITHUB_TOKEN, REPO);
     ReleaseNotesService changelogService = new ReleaseNotesService(service,
         new YamlUtil().readInputStream(this.getClass().getResourceAsStream("/ghrnc.yml")));
@@ -26,16 +28,27 @@ public class ReleaseNotesServiceTest extends AbstractTest {
   }
 
   @Test
-  void testSpring() throws Exception {
+  @Disabled
+  void testSpringOnline() throws Exception {
+    GithubService service = new GithubService(null, "spring-projects/spring-framework");
+    ReleaseNotesService changelogService = new ReleaseNotesService(service,
+        new YamlUtil().readInputStream(this.getClass().getResourceAsStream("/spring-framework-contr.yml")));
+    String changelog = changelogService.generateChangelog("6.2.5");
+    String expected = readInputStreamToString(this.getClass().getResourceAsStream("/changelog-spring-contr.md"));
+    assertEquals(expected, changelog);
+  }
+
+  @Test
+  void testSpringOffline() throws Exception {
     List<GHIssue> issues = GithubApiYamlTestConfig.configureObjectMapper()
         .readValue(this.getClass().getResourceAsStream("/issues_spring-6.2.5.yml"),
             new TypeReference<>() {
             });
-    ReleaseNotesService changelogService = new ReleaseNotesService(null,
+    ReleaseNotesService releaseNotesService = new ReleaseNotesService(null,
         new YamlUtil().readInputStream(
             this.getClass().getResourceAsStream("/spring-framework.yml")));
-    Map<String, List<GHIssue>> groupedIssues = changelogService.groupBySection(issues);
-    String actual = changelogService.generateMarkdown(groupedIssues);
+    Map<String, List<GHIssue>> groupedIssues = releaseNotesService.groupBySection(issues);
+    String actual = releaseNotesService.generateMarkdown(groupedIssues);
     String expected =
         readInputStreamToString(this.getClass().getResourceAsStream("/changelog-spring.md"));
     assertEquals(expected, actual);

@@ -15,15 +15,9 @@ ghrnc:
       labels:
         - "type: dependency-upgrade"
   contributors:
-    enabled: false
-    title: "Contributors"
-    message: ":heart: Thank you to all the contributors who worked on this release."
+    enabled: true
+    title: ":heart: Contributors"
+    message: "Thank you to all the contributors who worked on this release."
     excludes:
-      - "bclozel"
-      - "jhoeller"
-      - "poutsma"
-      - "rstoyanchev"
       - "sbrannen"
-      - "sdeleuze"
-      - "simonbasle"
-      - "snicoll"
+      - "wilkinsona"

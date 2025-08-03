@@ -28,11 +28,13 @@ public class GithubService {
     this(null, githubToken, repo);
   }
 
-  public GithubService(@Nullable String baseUrl, @Nullable String githubToken, String repo) throws IOException {
+  public GithubService(@Nullable String baseUrl, @Nullable String githubToken, String repo)
+      throws IOException {
     assert repo != null;
     GitHubBuilder builder = (githubToken == null || githubToken.isBlank()) ? new GitHubBuilder() :
         new GitHubBuilder().withOAuthToken(githubToken);
-    github = (baseUrl == null || baseUrl.isBlank()) ? builder.build() : builder.withEndpoint(baseUrl).build();
+    github = (baseUrl == null || baseUrl.isBlank()) ? builder.build() :
+        builder.withEndpoint(baseUrl).build();
     this.repo = github.getRepository(repo);
     LOG.debug("GitHub-Service initialized for {}", repo);
   }
