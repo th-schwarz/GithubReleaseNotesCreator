@@ -8,3 +8,8 @@ ghrnc:
       labels: ["bug"]
     - title: "Improvements"
       labels: ["improvement"]
+  contributors:
+    enabled: false
+    title: "Contributors"
+    message: "Thank you to all the contributors who worked on this release."
+    excludes: ["core-developer"]

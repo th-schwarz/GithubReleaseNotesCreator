@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
 import org.kohsuke.github.GHIssue;
@@ -15,42 +16,51 @@ import org.kohsuke.github.GHMilestone;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
-import org.kohsuke.github.PagedIterable;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GithubService {
+  private static final Logger LOG = LoggerFactory.getLogger(GithubService.class);
 
-  private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(GithubService.class);
   private final GitHub github;
-  private final GHRepository repo;
+  private final GHRepository repository;
 
-  public GithubService(@Nullable String githubToken, String repo) throws IOException {
-    this(null, githubToken, repo);
+  public GithubService(@Nullable String githubToken, String repositoryName) throws IOException {
+    this(null, githubToken, repositoryName);
   }
 
-  public GithubService(@Nullable String baseUrl, @Nullable String githubToken, String repo) throws IOException {
-    assert repo != null;
-    GitHubBuilder builder = (githubToken == null || githubToken.isBlank()) ? new GitHubBuilder() :
+  public GithubService(@Nullable String baseUrl, @Nullable String githubToken,
+      String repositoryName) throws IOException {
+    Objects.requireNonNull(repositoryName, "Repository name must not be null");
+    this.github = initGithubRepository(baseUrl, githubToken);
+    this.repository = github.getRepository(repositoryName);
+    LOG.debug("GitHub-Service initialized for {}", repositoryName);
+  }
+
+  private GitHub initGithubRepository(@Nullable String baseUrl, @Nullable String githubToken)
+      throws IOException {
+    GitHubBuilder builder = isBlank(githubToken) ? new GitHubBuilder() :
         new GitHubBuilder().withOAuthToken(githubToken);
-    github = (baseUrl == null || baseUrl.isBlank()) ? builder.build() : builder.withEndpoint(baseUrl).build();
-    this.repo = github.getRepository(repo);
-    LOG.debug("GitHub-Service initialized for {}", repo);
+    return isBlank(baseUrl) ? builder.build() : builder.withEndpoint(baseUrl).build();
   }
 
-  public GHMilestone findMilestone(String title) throws NoSuchElementException {
-    PagedIterable<GHMilestone> milestonePage = repo.listMilestones(GHIssueState.ALL);
-    for (GHMilestone mileStone : milestonePage) {
-      if (mileStone.getTitle().equals(title)) {
-        return mileStone;
+  private boolean isBlank(@Nullable String str) {
+    return (str == null || str.isBlank());
+  }
+
+  public GHMilestone findMilestone(String title) {
+    for (GHMilestone milestone : repository.listMilestones(GHIssueState.ALL)) {
+      if (milestone.getTitle().equals(title)) {
+        return milestone;
       }
     }
     throw new NoSuchElementException("No such milestone: " + title);
   }
 
   public List<GHIssue> getClosedIssuesForMilestone(GHMilestone milestone) throws IOException {
-    List<GHIssue> ghIssues = repo.getIssues(GHIssueState.CLOSED, milestone);
-    LOG.info("Found {} closed issues for milestone {}", ghIssues.size(), milestone.getTitle());
-    return ghIssues;
+    List<GHIssue> closedIssues = repository.getIssues(GHIssueState.CLOSED, milestone);
+    LOG.info("Found {} closed issues for milestone {}", closedIssues.size(), milestone.getTitle());
+    return closedIssues;
   }
 
   public Map<GHLabel, List<GHIssue>> groupByLabel(List<GHIssue> issues) {
