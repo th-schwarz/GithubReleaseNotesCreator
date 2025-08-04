@@ -82,4 +82,4 @@ Required parameters:
 
 Optional parameter:
 
-- `path-to-output-changelog.md`: The generated release notes file. If it isn't, 'release-notes.md' is used.
+- `path-to-output-changelog.md`: The generated release notes file. If it isn't set, 'release-notes.md' is used.
