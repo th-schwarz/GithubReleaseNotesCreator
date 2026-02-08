@@ -2,6 +2,7 @@ package codes.thischwa.ghrnc;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +67,11 @@ public class GithubService {
   public Map<GHLabel, List<GHIssue>> groupByLabel(List<GHIssue> issues) {
     Map<GHLabel, List<GHIssue>> grouped = new HashMap<>();
     for (GHIssue issue : issues) {
+      Collection<GHLabel> labels = issue.getLabels();
+      if (labels.isEmpty()) {
+        LOG.warn("Issue {} has no labels.", issue.getNumber());
+        continue;
+      }
       issue.getLabels().stream().findFirst()
           .ifPresent(label -> grouped.computeIfAbsent(label, k -> new ArrayList<>()).add(issue));
     }
