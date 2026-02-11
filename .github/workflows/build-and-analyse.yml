@@ -20,8 +20,10 @@ jobs:
       GHRNC_GITHUB_TOKEN: ${{secrets.GHRNC_GITHUB_TOKEN}}
       GHRNC_OWNER: ${{secrets.GHRNC_OWNER}}
       GHRNC_REPO: ${{secrets.GHRNC_REPO}}
+
     steps:
       - name: Setup Java and Maven
         uses: ./.github/actions/setup-java-maven/
+
       - name: Build with Maven
         run: mvn -DtestClasspath=src/test/ verify
