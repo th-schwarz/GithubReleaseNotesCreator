@@ -1,4 +1,4 @@
-name: Build and Analyse
+name: Build and Analyze
 
 on:
   push:
@@ -22,6 +22,9 @@ jobs:
       GHRNC_REPO: ${{secrets.GHRNC_REPO}}
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Setup Java and Maven
         uses: ./.github/actions/setup-java-maven/
 
