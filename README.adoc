@@ -15,7 +15,7 @@ If you find a bug or certain features are missing, don’t hesitate to file an i
 
 The state of the project is BETA.
 
-image:https://github.com/th-schwarz/GithubReleaseNotesCreator/actions/workflows/build-and-analyse.yml/badge.svg["GitHub CI Build Status",link="https://github.com/th-schwarz/GithubReleaseNotesCreator/actions/workflows/build-and-analyse.yml"]  image:https://img.shields.io/github/license/th-schwarz/GithubReleaseNotesCreator[GitHub License]
+image:https://github.com/th-schwarz/GithubReleaseNotesCreator/actions/workflows/build-and-analyse.yml/badge.svg["GitHub CI Build Status",link="https://github.com/th-schwarz/GithubReleaseNotesCreator/actions/workflows/build-and-analyze.yml"]  image:https://img.shields.io/github/license/th-schwarz/GithubReleaseNotesCreator[GitHub License]
 
 Give it a try!  image:https://img.shields.io/github/v/release/th-schwarz/GithubReleaseNotesCreator[GitHub Release]    image:https://img.shields.io/github/downloads/th-schwarz/GithubReleaseNotesCreator/total[GitHub Downloads (all assets, all releases)]
 
